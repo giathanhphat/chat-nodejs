@@ -6,21 +6,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
     <script src="jquery.js"></script>
     <script src="socket.io/socket.io.js"></script>
-    <script>
-        //truy cap den server
-        var socket = io('http://localhost:3000');
-        $(document).ready(function() {
-            $('#clientA').click(function() {
-                socket.emit('Client-A', 'Thang phat KHUNG KHUNG');
-            });
-        });
-    </script>
+    <script src="javascript.js"></script>
 </head>
 
 <body>
-    <div id="clientA">Send</div>
+    <div id="loginForm">
+        <h2>WHAT'S YOUR NAME</h2>
+        <input type="text" name="username" value="" id="txtusername"><br>
+        <button type="button" id="btnregister">Register</button>
+
+    </div>
+
+    <div id="show_chatForm">
+        <div id="users_online">
+            <h4>Users Online</h4>
+            <ul class="users_list">
+            </ul>
+        </div>
+        <div id="content_form">
+            <h4 id="current_User"></h4>
+            <div id="content_chat"></div>
+            <div id="send_chat">
+                <textarea rows="4" cols="60" id="txt_chat"></textarea>
+                <button type="button" id="btn_send">Send</button>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
 </body>
 
 </html>

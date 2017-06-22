@@ -9,6 +9,7 @@ app.set('views', './views');
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 server.listen(3000);
+var UserArray = [];
 // kiem tra các client ket noi voi server
 io.on('connection', function(socket) {
     console.log('Co nguoi ket noi' + socket.id);
@@ -16,8 +17,16 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function() {
         console.log(socket.id + ' da ngat ket noi');
     });
-    socket.on('Client-A', function(data) {
-        console.log(data);
+    socket.on('client-send-name', function(data) {
+        if (UserArray.indexOf(data) >= 0) {
+            socket.emit('server-send-failure');
+        } else {
+
+            UserArray.push(data);
+            socket.username = data;
+            socket.emit('server-send-success', data);
+            io.sockets.emit('server-send-usersList', UserArray);
+        }
     });
 });
 
