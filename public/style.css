@@ -89,6 +89,7 @@
     height: 600px;
     float: right;
     border: solid 1px #000000;
+    position: relative;
 }
 
 #show_chatForm #content_form h4 {
@@ -98,6 +99,16 @@
     padding-left: 10px;
     font-size: 20px;
     background-color: #55aaff;
+}
+
+#show_chatForm #content_form button#btnlogout {
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    background-color: #55aaff;
+    top: 0px;
+    right: 0px;
+    position: absolute;
 }
 
 #show_chatForm #content_form #content_chat {

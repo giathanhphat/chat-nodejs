@@ -14,8 +14,19 @@
           $('.users_list').append("<li><i class='fa fa-circle' aria-hidden='true'>  " + element + "</i></li>");
       });
   });
+  socket.on('server-send-message', function(data){
+      $('#content_chat').append("<p>" + data.un + ": "+ data.nd +"</p>");
+  });
   $(document).ready(function() {
       $('#btnregister').click(function() {
           socket.emit('client-send-name', $('#txtusername').val());
+      });
+      $('#btnlogout').click(function(){
+        socket.emit('logout');
+        $('#loginForm').show(2000);
+        $('#show_chatForm').hide(1000);
+      });
+      $('#btn_send').click(function(){
+        socket.emit('user-send-message', $('#txt_chat').val());
       });
   });

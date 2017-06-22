@@ -28,6 +28,15 @@ io.on('connection', function(socket) {
             io.sockets.emit('server-send-usersList', UserArray);
         }
     });
+    //co user logout
+    socket.on('logout', function(){
+        UserArray.splice(UserArray.indexOf(socket.username), 1);
+        socket.broadcast.emit('server-send-usersList', UserArray);
+    });
+
+    socket.on('user-send-message', function(data){
+        io.sockets.emit('server-send-message', {un:socket.username, nd:data});
+    });
 });
 
 app.get('/', function(req, res) {
