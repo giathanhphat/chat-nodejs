@@ -22,22 +22,42 @@ io.on('connection', function(socket) {
             socket.emit('server-send-failure');
         } else {
 
-            UserArray.push(data);
+            // UserArray.push(data);
+            // IdArray.push(socket.id);
+            user = new User(data, socket.id);
+            UserArray.push(user);
+            console.log(UserArray);
             socket.username = data;
             socket.emit('server-send-success', data);
             io.sockets.emit('server-send-usersList', UserArray);
         }
     });
     //co user logout
-    socket.on('logout', function(){
+    socket.on('logout', function() {
         UserArray.splice(UserArray.indexOf(socket.username), 1);
         socket.broadcast.emit('server-send-usersList', UserArray);
     });
 
-    socket.on('user-send-message', function(data){
-        io.sockets.emit('server-send-message', {un:socket.username, nd:data});
+    socket.on('user-send-message', function(data) {
+        io.sockets.emit('server-send-message', { un: socket.username, nd: data });
+    });
+
+    //chat don
+    socket.on('mode-chat-don', function() {
+        socket.emit('server-mode-chat-don', UserArray);
+    });
+    //chat don
+    socket.on('chon-user-chat', function(data) {
+        var position = UserArray.indexOf(data);
+        var id = IdArray[position];
+        io.to(id).emit()
     });
 });
+
+function User($name, $id) {
+    this.NAME = $name;
+    this.ID = $id;
+}
 
 app.get('/', function(req, res) {
     res.render('trangchu');
