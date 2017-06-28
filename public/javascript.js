@@ -11,13 +11,26 @@
   socket.on('server-send-usersList', function(data) {
       $('.users_list_don').html("");
       data.forEach(function(element) {
-          $('.users_list_don').append("<li class='userID' data-id='" + element.name + "'><i class='fa fa-circle' aria-hidden='true'>  " + element.name + "</i></li>");
+          $('.users_list_don').append("<li class='userID' data-id='" + element.id + "'><i class='fa fa-circle' aria-hidden='true'>  " + element.name + "</i></li>");
       });
   });
   socket.on('server-send-message', function(data) {
       $('#content_chat').append("<p>" + data.un + ": " + data.nd + "</p>");
   });
-
+  //chat 11
+  socket.on('server-send-chat11-success', function(data){
+      $('#current_User1').html('');
+      $('#content_chat1').html('');
+      $('#txt_chat1').html('');
+      $('#current_User1').append("<p>"+ data + "</p>");
+      $('#content_form1').show();
+       
+  });
+  //nhận message chat11 from server
+  socket.on('server-send-message-chat11-success', function(data)
+    {
+       $('#content_chat1').append("<p>" + data.un + ": " + data.nd + "</p>");
+    });
   $(document).ready(function() {
       $('#btnregister').click(function() {
           socket.emit('client-send-name', $('#txtusername').val());
@@ -34,6 +47,14 @@
       $('.users_list_don').on('dblclick', '.userID', function() {
           var row = $(this).closest("li");
           $id = row.data("id");
-          alert($id);
+          socket.emit('user-connect-chat11-success', $id);
+
       });
+      //gửi message chat 11 form user
+      $('#btn_send1').on('click', function()
+        {
+          socket.emit('user-send-message-chat11', $('#txt_chat1').val());
+          //  var username =  $('#current_User1').html();
+          // socket.emit('user-send-message-chat11', { toun: username, content: $('#txt_chat1').val()});
+        });
   });

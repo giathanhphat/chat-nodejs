@@ -68,7 +68,28 @@ io.on('connection', function(socket) {
     socket.on('user-send-message', function(data) {
         io.sockets.emit('server-send-message', { un: socket.name, nd: data });
     });
-
+    //chat 11
+    socket.on('user-connect-chat11-success', function(data){
+        var username = '';
+        UserArray.forEach(function(element){
+            if(element.id == data)
+            {
+                username = element.name;
+            }
+        });
+        socket.emit('server-send-chat11-success', username);
+    });
+    //gửi message chat 11 form server
+    socket.on('user-send-message-chat11', function(data){
+         var id;
+        UserArray.forEach(function(element){
+            if(element.name == data.toun)
+            {
+                id = element.id;
+            }
+        });
+        io.to(id).emit('server-send-message-chat11-success', {un: socket.name, nd: data.content});
+    });
 
 });
 
