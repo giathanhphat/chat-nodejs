@@ -69,6 +69,14 @@
     background-color: #55aaff;
 }
 
+#show_chatForm #users_online button {
+    width: 50%;
+    height: 40px;
+    font-size: 20px;
+    float: left;
+    background-color: #55aaff;
+}
+
 #show_chatForm #users_online ul {
     width: 100%;
     height: 560px;
@@ -134,6 +142,63 @@
 }
 
 #show_chatForm #content_form #send_chat button {
+    width: 90px;
+    height: 64px;
+    margin-left: 10px;
+    float: left;
+    background-color: #0080ff;
+    font-size: 20px;
+}
+
+#show_chatForm1 #content_form1 {
+    width: 540px;
+    height: 400px;
+    float: right;
+    border: solid 1px #000000;
+    position: relative;
+}
+
+#show_chatForm1 #content_form1 h4 {
+    width: 530;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+    font-size: 20px;
+    background-color: #55aaff;
+}
+
+#show_chatForm1 #content_form1 button#btnlogout1 {
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    background-color: #55aaff;
+    top: 0px;
+    right: 0px;
+    position: absolute;
+}
+
+#show_chatForm1 #content_form1 #content_chat1 {
+    width: 540;
+    height: 290px;
+    border: solid 1px #0080ff;
+    background-color: #d6d6d6;
+    overflow: scroll;
+}
+
+#show_chatForm1 #content_form1 #send_chat1 {
+    width: 100%;
+    height: 65px;
+    border: solid 1px #0080ff;
+    background-color: #d6d6d6;
+    line-height: 65px;
+}
+
+#show_chatForm1 #content_form1 #send_chat1 textarea {
+    resize: none;
+    float: left
+}
+
+#show_chatForm1 #content_form1 #send_chat1 button {
     width: 90px;
     height: 64px;
     margin-left: 10px;

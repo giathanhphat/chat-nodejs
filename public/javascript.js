@@ -9,22 +9,15 @@
       $('#show_chatForm').show(2000);
   });
   socket.on('server-send-usersList', function(data) {
-      $('.users_list').html("");
+      $('.users_list_don').html("");
       data.forEach(function(element) {
-          $('.users_list').append("<li id='" + element.NAME + "'><i class='fa fa-circle' aria-hidden='true'>  " + element.NAME + "</i></li>");
+          $('.users_list_don').append("<li class='userID' data-id='" + element.name + "'><i class='fa fa-circle' aria-hidden='true'>  " + element.name + "</i></li>");
       });
   });
   socket.on('server-send-message', function(data) {
       $('#content_chat').append("<p>" + data.un + ": " + data.nd + "</p>");
   });
-  //chat don
-  socket.on('server-mode-chat-don', function(data) {
-      data.forEach(function(element) {
-          $("#" + element).click(function() {
-              socket.emit('chon-user-chat', element);
-          });
-      });
-  });
+
   $(document).ready(function() {
       $('#btnregister').click(function() {
           socket.emit('client-send-name', $('#txtusername').val());
@@ -37,8 +30,10 @@
       $('#btn_send').click(function() {
           socket.emit('user-send-message', $('#txt_chat').val());
       });
-      //chat don
-      $('#btn_chat_don').click(function() {
-          socket.emit('mode-chat-don');
+      //dùng on mới nhận
+      $('.users_list_don').on('dblclick', '.userID', function() {
+          var row = $(this).closest("li");
+          $id = row.data("id");
+          alert($id);
       });
   });
