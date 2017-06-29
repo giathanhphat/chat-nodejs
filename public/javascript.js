@@ -37,10 +37,31 @@
           $('#content_form1').show();
       }
   });
+
+  //nhận danh sách room từ server
+  socket.on('server-send-room', function(data){
+      $('#group_list').html("");
+      data.forEach(function(element) {
+          $('#group_list').append("<li class='groupID' data-id='" + element.name + "'><i class='fa fa-circle' aria-hidden='true'>  " + element.name + "</i></li>");
+      });
+  });
   $(document).ready(function() {
       $('#btnregister').click(function() {
           socket.emit('client-send-name', $('#txtusername').val());
       });
+      //chọn chế độ chat đơn
+      $('#btn_chat_don').click(function()
+        {
+          $('.users_list_don').attr('id', 'active');
+          $('.users_list_nhom').attr('id', '');
+        });
+      //chọn chế độ chat nhóm
+      $('#btn_chat_nhom').click(function()
+        {
+           $('.users_list_don').attr('id', '');
+          $('.users_list_nhom').attr('id', 'active');
+        });
+      //logout tài khoản
       $('#btnlogout').click(function() {
           socket.emit('logout');
           $('#loginForm').show(2000);
@@ -61,4 +82,10 @@
           var username = $('#current_User1').html();
           socket.emit('user-send-message-chat11', { toun: username, content: $('#txt_chat1').val() });
       });
+
+      //Create Room
+      $('.btn_room').on('click', function()
+        {
+          socket.emit('user-send-create-room', $('#txt_room_name').val());
+        });
   });

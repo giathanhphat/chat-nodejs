@@ -27,8 +27,15 @@
             <button type="button" id="btn_chat_don">Chat don</button>
             <button type="button" id="btn_chat_nhom">Chat nhom</button>
             <div class="clear"></div>
-            <ul class="users_list_don"></ul>
-            <ul class="users_list_nhom"></ul>
+            <ul class="users_list_don" id="active"></ul>
+            <ul class="users_list_nhom">
+                <input type="text" name="room_name" id="txt_room_name">
+                <button type="button" class="btn_room">Tạo phòng</button>
+                <div class="clear"></div>
+                <p><i class="fa fa-list" aria-hidden="true"> Danh sách phòng chat  </i></p>
+                <ul id="group_list">
+                </ul>
+            </ul>
         </div>
         <div id="content_form">
             <h4 id="current_User">Hello </h4>

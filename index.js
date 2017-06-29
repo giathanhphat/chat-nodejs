@@ -10,10 +10,16 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 server.listen(3000);
 var UserArray = [];
-
-function User(username, id) {
+var RoomArray = [];
+var socketidArray = [];
+function User(username, socketid) {
     this.name = username;
-    this.id = id;
+    this.id = socketid;
+}
+function Room(roomname, socketidArray)
+{
+    this.name = roomname;
+    this.socketidArray = socketidArray;
 }
 // kiem tra các client ket noi voi server
 io.on('connection', function(socket) {
@@ -58,6 +64,7 @@ io.on('connection', function(socket) {
         UserArray.forEach(function(element) {
             if (element.name == socket.name) {
                 user = element;
+                return;
             }
         });
 
@@ -84,6 +91,7 @@ io.on('connection', function(socket) {
         UserArray.forEach(function(element) {
             if (element.name == data.toun) {
                 id = element.id;
+                return;
             }
         });
 
@@ -94,6 +102,36 @@ io.on('connection', function(socket) {
             io.to(id).emit('server-send-message-chat11-success', { un: socket.name, nd: data.content, nhan: 2 });
         }
 
+    });
+
+    //nhận create-room và gửi success
+    socket.on('user-send-create-room', function(data){
+        var exist_roomname = false;
+        if(RoomArray > 0){
+            for(var i = 0; i < RoomArray.length; i++)
+            {
+                 if(RoomArray[i].name == data)
+                 {
+                    exist_roomname = true;
+                    break;
+                 }
+            }
+        }
+        else{
+            exist_roomname = false;
+        }
+        if(exist_roomname == true)
+        {
+             alert('Room Name existed');
+        }else{
+            socketidArray.push(socket.id)
+            var room_name = new Room(data, socketidArray);
+            RoomArray.push(room_name);
+            socket.join(data);
+            console.log(RoomArray);
+            io.sockets.emit('server-send-room', RoomArray);
+        }
+       
     });
 
 });
