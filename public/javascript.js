@@ -17,7 +17,7 @@
   socket.on('server-send-message', function(data) {
       $('#content_chat').append("<p>" + data.un + ": " + data.nd + "</p>");
   });
-  //chat 11
+  //user-connect to-chat 11
   socket.on('server-send-chat11-success', function(data) {
       $('#current_User1').html('');
       $('#content_chat1').html('');
@@ -28,7 +28,14 @@
   });
   //nhận message chat11 from server
   socket.on('server-send-message-chat11-success', function(data) {
-      $('#content_chat1').append("<p>" + data.un + ": " + data.nd + "</p>");
+      if (data.nhan == 1)
+          $('#content_chat1').append("<p>" + data.un + ": " + data.nd + "</p>");
+      else {
+          $('#current_User1').html("");
+          $('#current_User1').append(data.un);
+          $('#content_chat1').append("<p>" + data.un + ": " + data.nd + "</p>");
+          $('#content_form1').show();
+      }
   });
   $(document).ready(function() {
       $('#btnregister').click(function() {

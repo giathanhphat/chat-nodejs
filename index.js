@@ -68,7 +68,7 @@ io.on('connection', function(socket) {
     socket.on('user-send-message', function(data) {
         io.sockets.emit('server-send-message', { un: socket.name, nd: data });
     });
-    //chat 11
+    //server-send-connect-chat 11-success
     socket.on('user-connect-chat11-success', function(data) {
         var username = '';
         UserArray.forEach(function(element) {
@@ -88,10 +88,10 @@ io.on('connection', function(socket) {
         });
 
         if (data.toun == socket.name) {
-            socket.emit('server-send-message-chat11-success', { un: socket.name, nd: data.content });
+            socket.emit('server-send-message-chat11-success', { un: socket.name, nd: data.content, nhan: 1 });
         } else {
-            socket.emit('server-send-message-chat11-success', { un: socket.name, nd: data.content });
-            io.to(id).emit('server-send-message-chat11-success', { un: socket.name, nd: data.content });
+            socket.emit('server-send-message-chat11-success', { un: socket.name, nd: data.content, nhan: 1 });
+            io.to(id).emit('server-send-message-chat11-success', { un: socket.name, nd: data.content, nhan: 2 });
         }
 
     });
