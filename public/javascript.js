@@ -1,5 +1,6 @@
   //truy cap den server
-  var socket = io('http://localhost:3000');
+  var socket = io('http://localhost:4000');
+  var roomid;
   socket.on('server-send-failure', function() {
       alert('Username da co nguoi su dung');
   });
@@ -39,28 +40,47 @@
   });
 
   //nhận danh sách room từ server
-  socket.on('server-send-room', function(data){
+  socket.on('server-send-room', function(data) {
       $('#group_list').html("");
       data.forEach(function(element) {
           $('#group_list').append("<li class='groupID' data-id='" + element.name + "'><i class='fa fa-circle' aria-hidden='true'>  " + element.name + "</i></li>");
       });
+  });
+  //'server-send-create-room-error'
+  socket.on('server-send-create-room-error', function() {
+      alert('Phòng này đã tồn tại');
+  });
+
+  //'server-send-create-room-success'
+  socket.on('server-send-create-room-success', function(data) {
+      $('#current_User-nhom').append(data);
+      roomid = data;
+  });
+
+  //user nhận message from room
+  socket.on('server-send-message-in-room', function(data) {
+      $('#content_chat-nhom').append("<p>" + data.un + ": " + data.nd + "</p>")
   });
   $(document).ready(function() {
       $('#btnregister').click(function() {
           socket.emit('client-send-name', $('#txtusername').val());
       });
       //chọn chế độ chat đơn
-      $('#btn_chat_don').click(function()
-        {
+      $('#btn_chat_don').click(function() {
           $('.users_list_don').attr('id', 'active');
           $('.users_list_nhom').attr('id', '');
-        });
+          $('#content_form').show(2000);
+          $('#content_form-nhom').hide(1000);
+      });
       //chọn chế độ chat nhóm
-      $('#btn_chat_nhom').click(function()
-        {
-           $('.users_list_don').attr('id', '');
+      $('#btn_chat_nhom').click(function() {
+          $('.users_list_don').attr('id', '');
           $('.users_list_nhom').attr('id', 'active');
-        });
+          $('#content_form').hide(1000);
+          $('#content_form-nhom').show(2000);
+          //user yêu cầu lấy danh sách room
+          socket.emit('user-require-get-rooms');
+      });
       //logout tài khoản
       $('#btnlogout').click(function() {
           socket.emit('logout');
@@ -84,8 +104,13 @@
       });
 
       //Create Room
-      $('.btn_room').on('click', function()
-        {
+      $('.btn_room').on('click', function() {
           socket.emit('user-send-create-room', $('#txt_room_name').val());
-        });
+      });
+
+      //Chat nhom
+      $('#btn_send-nhom').click(function() {
+          alert(roomid);
+          socket.emit('user-send-message-nhom', { toroom: roomid, content: $('#txt_chat-nhom').val() });
+      });
   });

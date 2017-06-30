@@ -85,7 +85,6 @@
     margin-left: 5px;
 }
 
-
 #show_chatForm #users_online button.btn_room {
     width: 40%;
     height: 30px;
@@ -95,7 +94,7 @@
     background-color: #55aaff;
 }
 
-#show_chatForm #users_online p{
+#show_chatForm #users_online p {
     width: auto;
     height: auto;
     font-size: 20px;
@@ -103,10 +102,9 @@
     font-style: italic;
 }
 
-#show_chatForm #users_online p i{
+#show_chatForm #users_online p i {
     font-style: italic;
 }
-
 
 #show_chatForm #users_online ul {
     width: 100%;
@@ -142,6 +140,7 @@
     float: right;
     border: solid 1px #000000;
     position: relative;
+    display: block;
 }
 
 #show_chatForm #content_form h4 {
@@ -185,6 +184,64 @@
 }
 
 #show_chatForm #content_form #send_chat button {
+    width: 90px;
+    height: 64px;
+    margin-left: 10px;
+    float: left;
+    background-color: #0080ff;
+    font-size: 20px;
+}
+
+#show_chatForm #content_form-nhom {
+    width: 540px;
+    height: 600px;
+    float: right;
+    border: solid 1px #000000;
+    position: relative;
+    display: none;
+}
+
+#show_chatForm #content_form-nhom h4 {
+    width: 530;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+    font-size: 20px;
+    background-color: #55aaff;
+}
+
+#show_chatForm #content_form-nhom button#btnlogout-nhom {
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    background-color: #55aaff;
+    top: 0px;
+    right: 0px;
+    position: absolute;
+}
+
+#show_chatForm #content_form-nhom #content_chat-nhom {
+    width: 540;
+    height: 490px;
+    border: solid 1px #0080ff;
+    background-color: #d6d6d6;
+    overflow: scroll;
+}
+
+#show_chatForm #content_form-nhom #send_chat-nhom {
+    width: 100%;
+    height: 65px;
+    border: solid 1px #0080ff;
+    background-color: #d6d6d6;
+    line-height: 65px;
+}
+
+#show_chatForm #content_form-nhom #send_chat-nhom textarea {
+    resize: none;
+    float: left
+}
+
+#show_chatForm #content_form-nhom #send_chat-nhom button {
     width: 90px;
     height: 64px;
     margin-left: 10px;

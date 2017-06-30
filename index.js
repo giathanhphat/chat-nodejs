@@ -8,21 +8,22 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-server.listen(3000);
+server.listen(4000);
 var UserArray = [];
 var RoomArray = [];
-var socketidArray = [];
+
 function User(username, socketid) {
     this.name = username;
     this.id = socketid;
 }
-function Room(roomname, socketidArray)
-{
+
+function Room(roomname, socketidArray) {
     this.name = roomname;
     this.socketidArray = socketidArray;
 }
 // kiem tra các client ket noi voi server
 io.on('connection', function(socket) {
+    var socketidArray = new Array;
     console.log('Co nguoi ket noi' + socket.id);
     // kiem tra tung client ngắt kết nối với server
     socket.on('disconnect', function() {
@@ -104,36 +105,43 @@ io.on('connection', function(socket) {
 
     });
 
+    //server send room khi user yêu cầu
+    socket.on('user-require-get-rooms', function() {
+        socket.emit('server-send-room', RoomArray);
+    });
+
     //nhận create-room và gửi success
-    socket.on('user-send-create-room', function(data){
+    socket.on('user-send-create-room', function(data) {
         var exist_roomname = false;
-        if(RoomArray > 0){
-            for(var i = 0; i < RoomArray.length; i++)
-            {
-                 if(RoomArray[i].name == data)
-                 {
+        if (RoomArray.length > 0) {
+            for (var i = 0; i < RoomArray.length; i++) {
+                if (RoomArray[i].name == data) {
                     exist_roomname = true;
                     break;
-                 }
+                }
             }
-        }
-        else{
+        } else {
             exist_roomname = false;
         }
-        if(exist_roomname == true)
-        {
-             alert('Room Name existed');
-        }else{
+        if (exist_roomname == true) {
+            socket.emit('server-send-create-room-error');
+        } else {
             socketidArray.push(socket.id)
             var room_name = new Room(data, socketidArray);
             RoomArray.push(room_name);
             socket.join(data);
-            console.log(RoomArray);
+            console.log(data);
+            // console.log(RoomArray);
+            socket.emit('server-send-create-room-success', data);
             io.sockets.emit('server-send-room', RoomArray);
         }
-       
+
     });
 
+    //server nhận message room và gửi lại
+    socket.on('user-send-message-nhom', function(data) {
+        io.sockets.in(data.toroom).emit('server-send-message-in-room', { un: socket.name, nd: data.content });
+    });
 });
 
 app.get('/', function(req, res) {
